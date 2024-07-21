@@ -1,9 +1,10 @@
 import { Input } from '@/components/form/input'
 import { Button } from '@/components/ui/button'
+import { Page } from '@/components/ui/page'
 
 export default function TicketsPage() {
   return (
-    <div className="max-w-[1120px] bg-zinc-900 mx-auto my-10 px-4 py-4 rounded-md">
+    <Page>
       <h3 className="font-bold text-2xl">Open Ticket</h3>
 
       <form className="flex flex-col gap-3 my-6 items-center">
@@ -18,20 +19,22 @@ export default function TicketsPage() {
         </Input.Root>
 
         <Input.Root width="lg">
-          <Input.Label value="Ticket Title" />
+          <Input.Label value="Product" />
           <Input.Select options={[{ key: 'Key', value: 'valyue' }]} />
         </Input.Root>
 
         <Input.Root width="lg">
-          <Input.Label value="Ticket Title" />
+          <Input.Label value="Add Files" />
           <Input.File />
         </Input.Root>
 
-        <div className="w-[720px] flex gap-4">
-          <Button type="submit">Delete</Button>
+        <div className="w-[720px] flex gap-4 mt-3">
+          <Button type="submit" variant="error">
+            Delete
+          </Button>
           <Button type="submit">Save</Button>
         </div>
       </form>
-    </div>
+    </Page>
   )
 }

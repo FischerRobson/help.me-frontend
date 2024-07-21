@@ -8,14 +8,14 @@ type Option = {
 
 type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
   options: Option[]
-  variant: Variant
+  variant?: Variant
 }
 
 export function Select({ options, variant, ...rest }: SelectProps) {
   return (
     <select
       {...rest}
-      className={`bg-zinc-800 rounded-md placeholder:text-zinc-500 ${variant.px} ${variant.py} ${variant.h} w-full`}
+      className={`bg-zinc-800 rounded-md placeholder:text-zinc-500 ${variant?.px} ${variant?.py} ${variant?.h} w-full`}
     >
       {/* <option disabled>Select</option> */}
       {options.map((e) => {
