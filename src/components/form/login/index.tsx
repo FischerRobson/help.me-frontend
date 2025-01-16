@@ -5,7 +5,7 @@ import { Input } from '../input'
 import { useLogin } from './useLogin'
 
 export function LoginForm() {
-  const { username, password, setUsername, setPassword, handleSubmit } =
+  const { username, password, setUsername, setPassword, handleSubmit, error } =
     useLogin()
 
   return (
@@ -32,7 +32,11 @@ export function LoginForm() {
         />
       </Input.Root>
 
-      <Button>Login</Button>
+      <p>{error}</p>
+
+      <Button type="submit" onClick={() => handleSubmit}>
+        Login
+      </Button>
     </form>
   )
 }

@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export const authAPI = axios.create({
   baseURL: env.AUTH_API_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },

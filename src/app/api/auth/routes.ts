@@ -1,11 +1,21 @@
 import { authAPI } from '@/config/apis'
 
 export async function loginRoute(email: string, password: string) {
-  const response = await authAPI.post('/login', { email, password })
-  const { token } = response.data
+  const response = await authAPI.post('/auth/login', { email, password })
 
-  // Save JWT in local storage or cookies
-  localStorage.setItem('jwt', token)
+  if (response.status !== 200) {
+    return false
+  }
 
-  return token
+  return true
+}
+
+export async function logoutRoute() {
+  try {
+    await authAPI.post('/auth/logout')
+    // Redirect the user to the login page after logout
+    window.location.href = '/login'
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
 }

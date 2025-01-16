@@ -1,4 +1,5 @@
 import { loginRoute } from '@/app/api/auth/routes'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 export function useLogin() {
@@ -6,23 +7,17 @@ export function useLogin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
 
+  const router = useRouter()
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     setError(null)
 
     try {
-      const response = await loginRoute(username, password)
+      await loginRoute(username, password)
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        setError(errorData.message)
-        return
-      }
-
-      const data = await response.json()
-      console.log('Login successful:', data)
+      router.push('/')
     } catch (error) {
-      console.error('Login error:', error)
       setError('Something went wrong. Please try again.')
     }
   }
