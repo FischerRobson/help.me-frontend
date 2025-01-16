@@ -1,15 +1,21 @@
 import { z } from 'zod'
 
 const envSchema = z.object({
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
+  TICKETS_API_URL: z.string().url(),
+  AUTH_API_URL: z.string().url(),
 })
 
-const parsedEnv = envSchema.safeParse(process.env)
+const parsedEnv = envSchema.safeParse({
+  TICKETS_API_URL: process.env.NEXT_PUBLIC_TICKETS_API_URL,
+  AUTH_API_URL: process.env.NEXT_PUBLIC_AUTH_API_URL,
+})
 
 if (!parsedEnv.success) {
-  console.error('Missing envs: ', parsedEnv.error.flatten().fieldErrors)
-  throw new Error('Missing envs')
+  console.error(
+    'Missing or invalid environment variables:',
+    parsedEnv.error.flatten().fieldErrors,
+  )
+  throw new Error('Environment variable validation failed')
 }
 
 export const env = parsedEnv.data
