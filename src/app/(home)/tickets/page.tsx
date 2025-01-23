@@ -1,8 +1,15 @@
+'use client'
+
 import { Input } from '@/components/form/input'
 import { Button } from '@/components/ui/button'
 import { Page } from '@/components/ui/page'
+import { useCreateTicket } from './useCreateTicket'
 
 export default function TicketsPage() {
+  const { categories } = useCreateTicket()
+
+  console.log(categories)
+
   return (
     <Page>
       <h3 className="font-bold text-2xl">Open Ticket</h3>

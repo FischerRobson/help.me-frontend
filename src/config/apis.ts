@@ -11,6 +11,7 @@ export const authAPI = axios.create({
 
 export const ticketsAPI = axios.create({
   baseURL: env.TICKETS_API_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },

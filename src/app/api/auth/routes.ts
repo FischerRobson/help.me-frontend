@@ -13,7 +13,6 @@ export async function loginRoute(email: string, password: string) {
 export async function logoutRoute() {
   try {
     await authAPI.post('/auth/logout')
-    // Redirect the user to the login page after logout
     window.location.href = '/login'
   } catch (error) {
     console.error('Logout failed:', error)
