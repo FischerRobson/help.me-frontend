@@ -1,4 +1,4 @@
-import { getTicketsCategory } from '@/app/api/tickets/routes'
+import { getTicketsCategory } from '@/app/api/tickets/get-categories'
 import { useEffect, useState } from 'react'
 
 type Category = {

@@ -1,18 +1,17 @@
-import { getTickets } from '@/app/api/tickets/routes'
+import { getTickets } from '@/app/api/tickets/get-tickets'
 import { Page } from '@/components/ui/page'
-import { Ticket } from '@/@types/ticket'
+import { TicketTable } from '@/components/ui/ticket/ticket-table'
 
 export default async function TicketsPage() {
-  let tickets: Ticket[] = []
-
-  tickets = await getTickets()
+  const { tickets } = await getTickets()
 
   return (
     <Page>
       <h3 className="font-bold text-2xl">Tickets</h3>
-      {tickets.map((e) => {
-        return <p key={e.id}>{e.id}</p>
-      })}
+
+      <h5 className="mt-2 mb-2">Filters</h5>
+
+      <TicketTable tickets={tickets} />
     </Page>
   )
 }

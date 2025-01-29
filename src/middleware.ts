@@ -26,7 +26,6 @@ export default async function middleware(req: NextRequest) {
   if (token) {
     try {
       const { payload } = await jwtVerify(token.value, JWT_SECRET)
-      console.log('JWT payload:', payload) // Replace with your secret
       // If valid, allow access
       if (PUBLIC_ROUTES.includes(req.nextUrl.pathname)) {
         return NextResponse.redirect(new URL('/', req.url)) // Redirect authenticated users from public routes
