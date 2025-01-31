@@ -1,4 +1,4 @@
-import { loginRoute } from '@/app/api/auth/routes'
+import { loginRoute } from '@/app/api/auth/login'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 

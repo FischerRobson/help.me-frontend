@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { env } from '@/env'
 
-export async function ticketApiRequest<T>(
+export async function authApiRequest<T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   endpoint: string,
   body?: unknown,
@@ -14,7 +14,7 @@ export async function ticketApiRequest<T>(
   }
 
   try {
-    const response = await fetch(`${env.TICKETS_API_URL}${endpoint}`, {
+    const response = await fetch(`${env.AUTH_API_URL}${endpoint}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
@@ -22,19 +22,24 @@ export async function ticketApiRequest<T>(
       },
       credentials: 'include',
       cache: 'no-store',
-      body: body ? JSON.stringify(body) : undefined,
+      body: body ? JSON.stringify(body) : null,
     })
 
-    console.log(response)
+    if (
+      response.status === 204 ||
+      response.headers.get('Content-Length') === '0'
+    ) {
+      return null
+    }
 
     if (!response.ok) {
-      console.error(`ERROR: ${method} TICKET-API${endpoint} ${response.status}`)
+      console.error(`ERROR: ${method} AUTH-API${endpoint} ${response.status}`)
       return null
     }
 
     return (await response.json()) as T
   } catch (error) {
-    console.error(`ERROR: ${method} TICKET-API${endpoint}`, error)
+    console.error(`ERROR: ${method} AUTH-API${endpoint}`, error)
     return null
   }
 }

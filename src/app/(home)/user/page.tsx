@@ -2,6 +2,9 @@ import { Input } from '@/components/form/input'
 import { Page } from '@/components/ui/page'
 import { User } from 'lucide-react'
 import { getUserFromToken } from '@/lib/auth'
+import { Button } from '@/components/ui/button'
+import { apiRouteRequest } from '@/lib/api-route-request'
+import { LogoutButton } from '@/components/ui/button/logout-button'
 
 interface User {
   email: string
@@ -21,6 +24,7 @@ export default function UserPage() {
             <User className="w-16 h-16" />
           </div>
           <p className="mt-4">{user?.email}</p>
+          <LogoutButton />
         </aside>
         <div className="border-r-2 border-zinc-600 h-full" />
         <div className="px-2 flex flex-col gap-3 items-center">
