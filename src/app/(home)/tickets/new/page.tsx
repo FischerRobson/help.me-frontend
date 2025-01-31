@@ -6,26 +6,50 @@ import { Page } from '@/components/ui/page'
 import { useCreateTicket } from './useCreateTicket'
 
 export default function NewTicketPage() {
-  const { categories } = useCreateTicket()
+  const {
+    categories,
+    description,
+    title,
+    selectedCategory,
+    setDescription,
+    setSelectedCategory,
+    setTitle,
+    onSubmit,
+  } = useCreateTicket()
 
   return (
     <Page>
       <h3 className="font-bold text-2xl">Open Ticket</h3>
 
-      <form className="flex flex-col gap-3 my-6 items-center">
+      <form
+        className="flex flex-col gap-3 my-6 items-center"
+        onSubmit={onSubmit}
+      >
         <Input.Root width="lg">
           <Input.Label value="Ticket Title" />
-          <Input.Field placeholder="Incident with accounts..." />
+          <Input.Field
+            placeholder="Incident with accounts..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </Input.Root>
 
         <Input.Root width="lg">
           <Input.Label value="Ticket Description" />
-          <Input.Textarea placeholder="Describe with details your problem..." />
+          <Input.Textarea
+            placeholder="Describe with details your problem..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </Input.Root>
 
         <Input.Root width="lg">
           <Input.Label value="Category" />
-          <Input.Select options={categories} />
+          <Input.Select
+            options={categories}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={selectedCategory}
+          />
         </Input.Root>
 
         <Input.Root width="lg">

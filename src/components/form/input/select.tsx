@@ -17,7 +17,9 @@ export function Select({ options, variant, ...rest }: SelectProps) {
       {...rest}
       className={`bg-zinc-800 rounded-md placeholder:text-zinc-500 ${variant?.px} ${variant?.py} ${variant?.h} w-full`}
     >
-      {/* <option disabled>Select</option> */}
+      <option disabled value={''}>
+        Select
+      </option>
       {options.map((e) => {
         return (
           <option key={e.key} value={e.value}>

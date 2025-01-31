@@ -1,5 +1,9 @@
+'use client'
+
 import { getTicketsCategory } from '@/app/api/tickets/get-categories'
-import { useEffect, useState } from 'react'
+import { apiRouteRequest } from '@/lib/api-route-request'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 type Category = {
   id: string
@@ -12,7 +16,28 @@ type Option = {
 }
 
 export function useCreateTicket() {
+  const router = useRouter()
   const [categories, setCategories] = useState<Option[]>([])
+
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const body = {
+      title,
+      description,
+      categoryId: selectedCategory,
+    }
+    const response = await apiRouteRequest('POST', '/tickets', body)
+
+    if (response) {
+      console.log(response)
+      router.push('/tickets')
+    }
+  }
 
   useEffect(() => {
     getTicketsCategory()
@@ -33,5 +58,12 @@ export function useCreateTicket() {
 
   return {
     categories,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    selectedCategory,
+    setSelectedCategory,
+    onSubmit,
   }
 }

@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import { env } from '@/env'
 
-export async function apiRequest<T>(
+export async function ticketApiRequest<T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   endpoint: string,
   body?: unknown,
 ): Promise<T | null> {
-  const jwtCookie = cookies().get('jwt') // ✅ Get JWT token from cookies
+  const jwtCookie = cookies().get('jwt')
 
   if (!jwtCookie) {
     console.error('Missing JWT token in cookies')
@@ -18,21 +18,25 @@ export async function apiRequest<T>(
       method,
       headers: {
         'Content-Type': 'application/json',
-        Cookie: `jwt=${jwtCookie.value}`, // ✅ Attach JWT token
+        Cookie: `jwt=${jwtCookie.value}`,
       },
       credentials: 'include',
       cache: 'no-store',
       body: body ? JSON.stringify(body) : undefined,
     })
 
+    // const responseData = await response.json()
+    // console.log('API response:', responseData)
+
     if (!response.ok) {
-      console.error(`API Error (${method} ${endpoint}): ${response.status}`)
+      console.log(response)
+      console.error(`ERROR: ${method} TICKET-API${endpoint} ${response.status}`)
       return null
     }
 
     return (await response.json()) as T
   } catch (error) {
-    console.error(`API Request Failed (${method} ${endpoint}):`, error)
+    console.error(`ERROR: ${method} TICKET-API${endpoint}`, error)
     return null
   }
 }

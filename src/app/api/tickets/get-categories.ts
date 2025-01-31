@@ -1,5 +1,7 @@
 import { ticketsAPI } from '@/config/apis'
 
+// actually a client side request
+
 export async function getTicketsCategory() {
   try {
     const response = await ticketsAPI.get('/categories')
