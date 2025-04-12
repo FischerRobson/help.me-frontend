@@ -6,27 +6,22 @@ import { Variant } from './variants'
 
 type FileProps = InputHTMLAttributes<HTMLInputElement> & {
   variant?: Variant
+  onAddFile?: any
+  onRemoveFile?: any
+  files: Array<File>
 }
 
-export function File({ variant }: FileProps) {
-  const [files, setFiles] = useState<File[] | null>(null)
-
+export function File({ variant, onRemoveFile, onAddFile, files }: FileProps) {
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { files: inputFile } = event.currentTarget
 
     if (!inputFile) return
-
-    if (!files) {
-      setFiles([inputFile[0]])
-    } else {
-      setFiles([...files, inputFile[0]])
-    }
+    onAddFile(inputFile[0])
   }
 
-  function removeFile(file: File) {
-    const filteredFiles = files?.filter((e) => e.name !== file.name)
-
-    setFiles(filteredFiles || [])
+  function removeFile(filename: string) {
+    console.log('remove', filename)
+    onRemoveFile(filename)
   }
 
   return (
@@ -52,7 +47,7 @@ export function File({ variant }: FileProps) {
             <section
               key={file.name}
               className="flex gap-3 my-1 group"
-              onClick={() => removeFile(file)}
+              onClick={() => removeFile(file.name)}
             >
               <span className="text-zinc-500 group-hover:text-red-400 cursor-pointer transition-colors">
                 {file.name}

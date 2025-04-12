@@ -15,6 +15,9 @@ export default function NewTicketPage() {
     setSelectedCategory,
     setTitle,
     onSubmit,
+    files,
+    addFile,
+    removeFile,
   } = useCreateTicket()
 
   return (
@@ -54,7 +57,11 @@ export default function NewTicketPage() {
 
         <Input.Root width="lg">
           <Input.Label value="Add Files" />
-          <Input.File />
+          <Input.File
+            files={files}
+            onAddFile={addFile}
+            onRemoveFile={removeFile}
+          />
         </Input.Root>
 
         <div className="w-[720px] flex gap-4 mt-3">

@@ -23,6 +23,22 @@ export function useCreateTicket() {
   const [description, setDescription] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
 
+  const [files, setFiles] = useState<Array<File>>([])
+
+  function addFile(file: File) {
+    setFiles((prev) => [...prev, file])
+  }
+
+  function removeFile(fileToRemove: File) {
+    setFiles((prev) =>
+      prev.filter(
+        (file) =>
+          file.name !== fileToRemove.name ||
+          file.lastModified !== fileToRemove.lastModified,
+      ),
+    )
+  }
+
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
@@ -31,10 +47,15 @@ export function useCreateTicket() {
       description,
       categoryId: selectedCategory,
     }
-    const response = await apiRouteRequest('POST', '/tickets', body)
 
-    if (response) {
-      console.log(response)
+    const [ticketResponse, uploadResponse] = await Promise.all([
+      apiRouteRequest('POST', '/tickets', body),
+      apiRouteRequest('POST', '/uploads', files),
+    ])
+
+    if (ticketResponse && uploadResponse) {
+      console.log('Ticket:', ticketResponse)
+      console.log('Upload:', uploadResponse)
       router.push('/tickets')
     }
   }
@@ -42,7 +63,6 @@ export function useCreateTicket() {
   useEffect(() => {
     getTicketsCategory()
       .then((res: Category[]) => {
-        console.log(res)
         const categoriesAsOptions = res.map((cat) => {
           return {
             key: cat.name,
@@ -65,5 +85,8 @@ export function useCreateTicket() {
     selectedCategory,
     setSelectedCategory,
     onSubmit,
+    files,
+    addFile,
+    removeFile,
   }
 }

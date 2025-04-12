@@ -12,17 +12,17 @@ interface DashboardData {
   }[]
 }
 
-export async function getDashboard(): Promise<DashboardData> {
+export async function getDashboard(): Promise<DashboardData | null> {
   try {
     const response = await ticketApiRequest<DashboardData>('GET', '/dashboard')
 
     if (!response) {
-      return {} as DashboardData
+      return null
     }
 
     return response
   } catch (err) {
     console.error(err)
-    return {} as DashboardData
+    return null
   }
 }

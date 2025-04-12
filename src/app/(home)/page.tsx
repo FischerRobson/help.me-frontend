@@ -3,7 +3,19 @@ import { getDashboard } from '../api/tickets/get-dashboard'
 import Dashboard from '@/components/dashboard'
 
 export default async function Home() {
-  const { categorized, openedToday, ticketsPerDay } = await getDashboard()
+  const dashboardData = await getDashboard()
+
+  if (!dashboardData) {
+    return (
+      <Page>
+        <h3 className="font-bold text-2xl">Tickets</h3>
+
+        <div>no data</div>
+      </Page>
+    )
+  }
+
+  const { categorized, openedToday, ticketsPerDay } = dashboardData
 
   return (
     <Page>
