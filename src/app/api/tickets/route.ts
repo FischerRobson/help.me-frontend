@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { ticketApiRequest } from '@/lib/ticket-api-request'
 import { NextResponse } from 'next/server'
 
@@ -12,8 +11,6 @@ type CreateTicketParams = {
 export async function POST(req: Request) {
   try {
     const body: CreateTicketParams = await req.json()
-
-    body.uploadId = uuidv4()
 
     const response = await ticketApiRequest('POST', '/tickets', body)
 

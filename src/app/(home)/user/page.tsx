@@ -2,8 +2,6 @@ import { Input } from '@/components/form/input'
 import { Page } from '@/components/ui/page'
 import { User } from 'lucide-react'
 import { getUserFromToken } from '@/lib/auth'
-import { Button } from '@/components/ui/button'
-import { apiRouteRequest } from '@/lib/api-route-request'
 import { LogoutButton } from '@/components/ui/button/logout-button'
 
 interface User {

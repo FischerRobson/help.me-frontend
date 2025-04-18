@@ -10,6 +10,9 @@ export interface Ticket {
   user_id: string
   support_id: string | null
   categoryId: string
+  category: {
+    name: string
+  }
 }
 
 export interface TicketDetails {

@@ -1,7 +1,7 @@
 import { authApiRequest } from '@/lib/auth-api-request'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     await authApiRequest('POST', '/auth/logout', null)
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { cloneElement, ReactNode } from 'react'
 import { VariantTypes, VARIANTS } from './variants'
 
@@ -15,7 +16,9 @@ export function Root({ children, width = 'md' }: RootProps) {
     >
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return cloneElement(child, { variant })
+          return cloneElement(child as React.ReactElement<any>, {
+            variant,
+          })
         }
         return child
       })}

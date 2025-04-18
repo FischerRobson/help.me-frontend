@@ -1,29 +1,9 @@
-import { v4 as uuidv4 } from 'uuid'
 import { uploadApiRequest } from '@/lib/upload-api-request'
 import { NextResponse } from 'next/server'
 
-type CreateTicketFilesParams = {
-  uploadId: string
-  files: Array<File>
-}
-
-type CreateTicketFilesParamsBody = {
-  files: Array<File>
-}
-
 export async function POST(req: Request) {
   try {
-    const { files }: CreateTicketFilesParamsBody = await req.json()
-
-    const formData = new FormData()
-
-    const uploadId = uuidv4()
-    formData.append('uploadId', uploadId)
-
-    for (const file of files) {
-      const blob = new Blob([file], { type: file.type })
-      formData.append('files', blob, file.name)
-    }
+    const formData = await req.formData()
 
     const response = uploadApiRequest('POST', '/upload/v2', formData)
 

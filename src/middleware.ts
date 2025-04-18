@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 import { env } from './env'
 
-const PUBLIC_ROUTES = ['/login', '/signup'] // Define public routes here
+const PUBLIC_ROUTES = ['/login', '/signup']
 
 const JWT_SECRET = new TextEncoder().encode(env.JWT_SECRET!)
 
@@ -11,32 +11,29 @@ export default async function middleware(req: NextRequest) {
 
   // Exclude static files and API routes
   const isPublicAsset =
-    pathname.startsWith('/_next/') || // Next.js assets
-    pathname.startsWith('/static/') || // Static folder
-    pathname.startsWith('/favicon.ico') || // Favicon
-    pathname.match(/\.(.*)$/) // Other static files like CSS, JS, etc.
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/static/') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.match(/\.(.*)$/)
 
   if (isPublicAsset) {
-    return NextResponse.next() // Skip middleware for these paths
+    return NextResponse.next()
   }
 
-  const token = req.cookies.get('jwt') // Get the JWT from cookies
+  const token = req.cookies.get('jwt')
 
-  // Decode and validate the token
   if (token) {
     try {
-      const { payload } = await jwtVerify(token.value, JWT_SECRET)
-      // If valid, allow access
+      await jwtVerify(token.value, JWT_SECRET)
       if (PUBLIC_ROUTES.includes(req.nextUrl.pathname)) {
-        return NextResponse.redirect(new URL('/', req.url)) // Redirect authenticated users from public routes
+        return NextResponse.redirect(new URL('/', req.url))
       }
-      return NextResponse.next() // Continue to protected routes
+      return NextResponse.next()
     } catch (err) {
       console.error('Invalid token:', err)
     }
   }
 
-  // Redirect unauthenticated users away from protected routes
   if (!PUBLIC_ROUTES.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/login', req.url))
   }

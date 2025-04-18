@@ -29,12 +29,12 @@ export function TicketFilter() {
     router.push(`?${params.toString()}`)
   }
 
-  function clearFilters() {
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('status')
-    params.delete('pageSize')
-    router.push(`?${params.toString()}`)
-  }
+  // function clearFilters() {
+  //   const params = new URLSearchParams(searchParams.toString())
+  //   params.delete('status')
+  //   params.delete('pageSize')
+  //   router.push(`?${params.toString()}`)
+  // }
 
   return (
     <div className="flex items-center justify-between py-2">

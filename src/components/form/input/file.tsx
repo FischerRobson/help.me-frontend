@@ -1,13 +1,13 @@
 'use client'
 
-import { ChangeEvent, InputHTMLAttributes, useState } from 'react'
+import { ChangeEvent, InputHTMLAttributes } from 'react'
 import { Upload, X } from 'lucide-react'
 import { Variant } from './variants'
 
 type FileProps = InputHTMLAttributes<HTMLInputElement> & {
   variant?: Variant
-  onAddFile?: any
-  onRemoveFile?: any
+  onAddFile: (file: File) => void
+  onRemoveFile: (file: File) => void
   files: Array<File>
 }
 
@@ -19,9 +19,8 @@ export function File({ variant, onRemoveFile, onAddFile, files }: FileProps) {
     onAddFile(inputFile[0])
   }
 
-  function removeFile(filename: string) {
-    console.log('remove', filename)
-    onRemoveFile(filename)
+  function removeFile(file: File) {
+    onRemoveFile(file)
   }
 
   return (
@@ -47,7 +46,7 @@ export function File({ variant, onRemoveFile, onAddFile, files }: FileProps) {
             <section
               key={file.name}
               className="flex gap-3 my-1 group"
-              onClick={() => removeFile(file.name)}
+              onClick={() => removeFile(file)}
             >
               <span className="text-zinc-500 group-hover:text-red-400 cursor-pointer transition-colors">
                 {file.name}

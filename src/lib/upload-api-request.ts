@@ -4,7 +4,7 @@ import { env } from '@/env'
 export async function uploadApiRequest<T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   endpoint: string,
-  body?: unknown,
+  formData: FormData,
 ): Promise<T | null> {
   const jwtCookie = cookies().get('jwt')
 
@@ -17,12 +17,11 @@ export async function uploadApiRequest<T>(
     const response = await fetch(`${env.UPLOAD_API_URL}${endpoint}`, {
       method,
       headers: {
-        'Content-Type': 'application/json',
         Cookie: `jwt=${jwtCookie.value}`,
       },
       credentials: 'include',
       cache: 'no-store',
-      body: body ? JSON.stringify(body) : undefined,
+      body: formData,
     })
 
     console.log(response)

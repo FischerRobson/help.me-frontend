@@ -1,7 +1,11 @@
 'use client'
 
+import { v4 as uuidv4 } from 'uuid'
 import { getTicketsCategory } from '@/app/api/tickets/get-categories'
-import { apiRouteRequest } from '@/lib/api-route-request'
+import {
+  apiRouteMultipartRequest,
+  apiRouteRequest,
+} from '@/lib/api-route-request'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -42,20 +46,25 @@ export function useCreateTicket() {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
+    const uploadId = uuidv4()
+
     const body = {
+      id: uploadId,
       title,
       description,
       categoryId: selectedCategory,
     }
 
+    const formData = new FormData()
+    formData.append('uploadId', uuidv4())
+    files.forEach((file) => formData.append('files', file))
+
     const [ticketResponse, uploadResponse] = await Promise.all([
       apiRouteRequest('POST', '/tickets', body),
-      apiRouteRequest('POST', '/uploads', files),
+      apiRouteMultipartRequest('POST', '/uploads', formData),
     ])
 
     if (ticketResponse && uploadResponse) {
-      console.log('Ticket:', ticketResponse)
-      console.log('Upload:', uploadResponse)
       router.push('/tickets')
     }
   }
